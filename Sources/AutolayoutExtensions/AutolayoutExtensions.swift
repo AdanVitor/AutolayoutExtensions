@@ -16,7 +16,7 @@ public struct UsesAutoLayout<T: UIView> {
     }
 }
 
-extension UIView{
+public extension UIView{
     
     func constraintsToSameWidth(view: UIView,
                                 multiplier: CGFloat = 1) -> [NSLayoutConstraint]{
@@ -92,7 +92,7 @@ extension UIView{
 
 }
 
-extension NSLayoutConstraint{
+public extension NSLayoutConstraint{
     func activate(){
         self.isActive = true
     }
@@ -102,7 +102,7 @@ extension NSLayoutConstraint{
     }
 }
 
-extension Array where Element == NSLayoutConstraint{
+public extension Array where Element == NSLayoutConstraint{
     func activate(){
         self.forEach{constraint in constraint.activate()}
     }
