@@ -6,7 +6,6 @@ import Foundation
 //https://pedroalvarez-29395.medium.com/view-code-em-ios-a-control-framework-to-eliminate-interface-builders-449fa1884958
 public protocol ViewCodeConfiguration{
     func buildHierarchy()
-    func removeAutoresizingMaskFromSubviews()
     func setupConstraints()
     func configureViews()
 }
@@ -17,7 +16,6 @@ public extension ViewCodeConfiguration{
     
     func applyViewCode() {
         buildHierarchy()
-        removeAutoresizingMaskFromSubviews()
         setupConstraints()
         configureViews()
     }
