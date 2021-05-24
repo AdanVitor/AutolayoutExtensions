@@ -94,6 +94,10 @@ public extension UIView{
 
 public extension NSLayoutConstraint{
     func activate(){
+        //https://www.innoq.com/en/blog/ios-auto-layout-problem/
+        if let view = self.firstItem as? UIView {
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         self.isActive = true
     }
     
