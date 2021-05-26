@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIStackView{
+public extension UIStackView{
     func addArrangedSubviews(views : UIView...){
         views.forEach{
             self.addArrangedSubview($0)
@@ -21,7 +21,7 @@ extension UIStackView{
     }
 }
 
-class UIStackViewBuilder{
+public class UIStackViewBuilder{
     let stackView = UIStackView()
     
     init(axis : NSLayoutConstraint.Axis){
