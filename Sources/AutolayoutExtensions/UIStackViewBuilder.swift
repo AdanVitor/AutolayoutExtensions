@@ -24,27 +24,27 @@ public extension UIStackView{
 public class UIStackViewBuilder{
     let stackView = UIStackView()
     
-    init(axis : NSLayoutConstraint.Axis){
+    public init(axis : NSLayoutConstraint.Axis){
         stackView.axis = axis
     }
     
-    func withSpacing(_ spacing : CGFloat) -> Self{
+    public func withSpacing(_ spacing : CGFloat) -> Self{
         stackView.spacing = spacing
         return self
     }
     
-    func withAligment(_ aligment : UIStackView.Alignment) -> Self{
+    public func withAligment(_ aligment : UIStackView.Alignment) -> Self{
         stackView.alignment = aligment
         return self
     }
     
-    func withDistribution(_ distribution : UIStackView.Distribution) -> Self{
+    public func withDistribution(_ distribution : UIStackView.Distribution) -> Self{
         stackView.distribution = distribution
         return self
     }
     
     
-    func build() -> UIStackView{
+    public func build() -> UIStackView{
         return stackView
     }
 }
