@@ -9,6 +9,20 @@ import Foundation
 import UIKit
 
 public extension UIStackView{
+    func createStackView(axis : NSLayoutConstraint.Axis,
+                         spacing : CGFloat = 0,
+                         aligment : UIStackView.Alignment,
+                         distribution : UIStackView.Distribution = .fill,
+                         then : ((UIStackView) -> Void)? = nil) -> UIStackView{
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.spacing = spacing
+        stackView.alignment = alignment
+        stackView.distribution = distribution
+        then?(stackView)
+        return stackView
+    }
+    
     func addArrangedSubviews(views : UIView...){
         views.forEach{
             self.addArrangedSubview($0)
@@ -21,30 +35,4 @@ public extension UIStackView{
     }
 }
 
-public class UIStackViewBuilder{
-    let stackView = UIStackView()
-    
-    public init(axis : NSLayoutConstraint.Axis){
-        stackView.axis = axis
-    }
-    
-    public func withSpacing(_ spacing : CGFloat) -> Self{
-        stackView.spacing = spacing
-        return self
-    }
-    
-    public func withAligment(_ aligment : UIStackView.Alignment) -> Self{
-        stackView.alignment = aligment
-        return self
-    }
-    
-    public func withDistribution(_ distribution : UIStackView.Distribution) -> Self{
-        stackView.distribution = distribution
-        return self
-    }
-    
-    
-    public func build() -> UIStackView{
-        return stackView
-    }
-}
+
