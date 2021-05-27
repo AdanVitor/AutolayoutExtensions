@@ -11,15 +11,19 @@ import UIKit
 
 public extension UILabel{
     
-    static func createDynamicFontLabel(fontStyle : UIFont.TextStyle, defaultText : String = "", then : ((UILabel) -> Void)? = nil) -> UILabel{
+    static func createLabelWithDynamicFont(fontStyle : UIFont.TextStyle, defaultText : String = "", then : ((UILabel) -> Void)? = nil) -> UILabel{
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: fontStyle)
-        label.adjustsFontForContentSizeCategory = true
         label.text = defaultText
-        label.minimumScaleFactor = 0.3
-        label.adjustsFontSizeToFitWidth = true
+        label.setDynamicFontStyle(fontStyle: fontStyle)
         then?(label)
         return label
+    }
+    
+    func setDynamicFontStyle(fontStyle : UIFont.TextStyle, mininumScaleFactor : CGFloat = 0.3){
+        self.font = UIFont.preferredFont(forTextStyle: fontStyle)
+        self.adjustsFontForContentSizeCategory = true
+        self.minimumScaleFactor = mininumScaleFactor
+        self.adjustsFontSizeToFitWidth = true
     }
 }
 
