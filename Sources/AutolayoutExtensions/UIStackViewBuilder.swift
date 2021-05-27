@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 public extension UIStackView{
-    func createStackView(axis : NSLayoutConstraint.Axis,
+    static func createStackView(axis : NSLayoutConstraint.Axis,
                          spacing : CGFloat = 0,
                          aligment : UIStackView.Alignment,
                          distribution : UIStackView.Distribution = .fill,
@@ -17,7 +17,7 @@ public extension UIStackView{
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.spacing = spacing
-        stackView.alignment = alignment
+        stackView.alignment = aligment
         stackView.distribution = distribution
         then?(stackView)
         return stackView
