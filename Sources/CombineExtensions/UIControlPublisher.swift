@@ -7,8 +7,8 @@ import Combine
 /// A custom `Publisher` to work with our custom `UIControlSubscription`.
 public struct UIControlPublisher<Control: UIControl>: Publisher {
 
-    typealias Output = Control
-    typealias Failure = Never
+    public typealias Output = Control
+    public typealias Failure = Never
 
     let control: Control
     let controlEvents: UIControl.Event
@@ -18,7 +18,7 @@ public struct UIControlPublisher<Control: UIControl>: Publisher {
         self.controlEvents = events
     }
     
-    func receive<S>(subscriber: S) where S : Subscriber, S.Failure == UIControlPublisher.Failure, S.Input == UIControlPublisher.Output {
+    public func receive<S>(subscriber: S) where S : Subscriber, S.Failure == UIControlPublisher.Failure, S.Input == UIControlPublisher.Output {
         let subscription = UIControlSubscription(subscriber: subscriber, control: control, event: controlEvents)
         subscriber.receive(subscription: subscription)
     }
