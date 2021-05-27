@@ -5,7 +5,7 @@ import Combine
 
 // https://www.avanderlee.com/swift/custom-combine-publisher/
 /// A custom `Publisher` to work with our custom `UIControlSubscription`.
-struct UIControlPublisher<Control: UIControl>: Publisher {
+public struct UIControlPublisher<Control: UIControl>: Publisher {
 
     typealias Output = Control
     typealias Failure = Never
