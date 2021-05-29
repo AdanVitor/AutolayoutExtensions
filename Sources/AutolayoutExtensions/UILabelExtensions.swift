@@ -11,10 +11,13 @@ import UIKit
 
 public extension UILabel{
     
-    static func createLabelWithDynamicFont(fontStyle : UIFont.TextStyle, defaultText : String = "", then : ((UILabel) -> Void)? = nil) -> UILabel{
+    static func createLabelWithDynamicFont(fontStyle : UIFont.TextStyle,
+                                           defaultText : String = "",
+                                           minimumScaleFactor: CGFloat = 0.3,
+                                           then : ((UILabel) -> Void)? = nil) -> UILabel{
         let label = UILabel()
         label.text = defaultText
-        label.setDynamicFontStyle(fontStyle: fontStyle)
+        label.setDynamicFontStyle(fontStyle: fontStyle, mininumScaleFactor : minimumScaleFactor)
         then?(label)
         return label
     }
