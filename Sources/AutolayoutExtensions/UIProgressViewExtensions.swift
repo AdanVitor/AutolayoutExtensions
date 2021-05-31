@@ -10,9 +10,9 @@ import UIKit
 
 public extension UIProgressView{
     
-    static func create(then : (UIProgressView) -> Void) -> UIProgressView{
+    static func create(then : ((UIProgressView) -> Void)? = nil) -> UIProgressView{
         let progressView = UIProgressView()
-        then(progressView)
+        then?(progressView)
         return progressView
         
     }
