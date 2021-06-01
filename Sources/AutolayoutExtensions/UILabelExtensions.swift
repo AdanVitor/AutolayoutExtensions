@@ -13,20 +13,28 @@ public extension UILabel{
     
     static func createLabelWithDynamicFont(fontStyle : UIFont.TextStyle,
                                            defaultText : String = "",
-                                           minimumScaleFactor: CGFloat = 0.3,
                                            then : ((UILabel) -> Void)? = nil) -> UILabel{
         let label = UILabel()
         label.text = defaultText
-        label.setDynamicFontStyle(fontStyle: fontStyle, mininumScaleFactor : minimumScaleFactor)
+        label.setDynamicFontStyle(fontStyle: fontStyle)
         then?(label)
         return label
     }
     
-    func setDynamicFontStyle(fontStyle : UIFont.TextStyle, mininumScaleFactor : CGFloat = 0.3){
+    func setDynamicFontStyle(fontStyle : UIFont.TextStyle){
         self.font = UIFont.preferredFont(forTextStyle: fontStyle)
         self.adjustsFontForContentSizeCategory = true
-        self.minimumScaleFactor = mininumScaleFactor
+    }
+    
+    func setMinimumScaleFactor(minimumScaleFactor : CGFloat){
+        self.minimumScaleFactor = minimumScaleFactor
         self.adjustsFontSizeToFitWidth = true
     }
+    
+    func allowMultiline(numberOfLines: Int = 0){
+        self.numberOfLines = numberOfLines
+    }
+    
+    
 }
 
