@@ -19,6 +19,13 @@ public extension UILabel{
         return label
     }
     
+    func setDynamicFontStyle(fontStyle : UIFont.TextStyle,
+                             sizeToScale : CGFloat){
+        let customFont = UIFont.systemFont(ofSize: sizeToScale)
+        self.font = UIFontMetrics(forTextStyle: fontStyle).scaledFont(for: customFont)
+        self.adjustsFontForContentSizeCategory = true
+    }
+
     func setDynamicFontStyle(fontStyle : UIFont.TextStyle){
         self.font = UIFont.preferredFont(forTextStyle: fontStyle)
         self.adjustsFontForContentSizeCategory = true
