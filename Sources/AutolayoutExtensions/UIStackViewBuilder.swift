@@ -12,14 +12,12 @@ public extension UIStackView{
     static func createStackView(axis : NSLayoutConstraint.Axis,
                          spacing : CGFloat = 0,
                          aligment : UIStackView.Alignment,
-                         distribution : UIStackView.Distribution = .fill,
-                         then : ((UIStackView) -> Void)? = nil) -> UIStackView{
+                         distribution : UIStackView.Distribution = .fill) -> UIStackView{
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.spacing = spacing
         stackView.alignment = aligment
         stackView.distribution = distribution
-        then?(stackView)
         return stackView
     }
     
