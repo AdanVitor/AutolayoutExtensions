@@ -88,6 +88,13 @@ public extension UIView{
                                                  trailing: padding)
     }
     
+    func constraintsForSize(width : CGFloat, height: CGFloat) -> [NSLayoutConstraint]{
+        return [
+            heightAnchor.constraint(equalToConstant: height),
+            widthAnchor.constraint(equalToConstant: width)
+        ]
+    }
+    
     
 
 }
