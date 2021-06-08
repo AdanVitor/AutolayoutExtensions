@@ -13,8 +13,8 @@ public protocol ThenExtensionProtocol{}
 extension UIView : ThenExtensionProtocol{}
 
 public extension ThenExtensionProtocol where Self : UIView{
-    func then(_ thenFunction: (Self) -> Void) -> Self{
-        thenFunction(self)
+    func then(_ postConstructorFunction: (Self) -> Void) -> Self{
+        postConstructorFunction(self)
         return self
     }
 }
