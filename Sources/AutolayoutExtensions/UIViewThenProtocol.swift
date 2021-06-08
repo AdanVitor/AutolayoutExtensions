@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-protocol ThenExtensionProtocol{}
+public protocol ThenExtensionProtocol{}
 
 extension UIView : ThenExtensionProtocol{}
 
-extension ThenExtensionProtocol where Self : UIView{
+public extension ThenExtensionProtocol where Self : UIView{
     func then(_ thenFunction: (Self) -> Void){
         thenFunction(self)
     }
