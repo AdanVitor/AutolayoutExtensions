@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol CellIdentifiable {
     static var identifier : String {get}
