@@ -15,3 +15,15 @@ public extension UIView{
         imageView.constraintsForAnchoringTo(view: self).activate()
     }
 }
+
+public extension UIView {
+    func unableHideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.endEditing(true)
+    }
+}
