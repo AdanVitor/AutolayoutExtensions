@@ -18,6 +18,13 @@ public struct UsesAutoLayout<T: UIView> {
 
 public extension UIView{
     
+    enum SideAnchor{
+        case top
+        case leading
+        case bottom
+        case trailing
+    }
+    
     func constraintsToSameWidth(view: UIView,
                                 multiplier: CGFloat = 1) -> [NSLayoutConstraint]{
         return [widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: multiplier)]
@@ -86,6 +93,17 @@ public extension UIView{
                                                  leading: padding,
                                                  bottom: padding,
                                                  trailing: padding)
+    }
+    
+    func constraintsForAnchoringToSafeArea(view: UIView,
+                                           padding : CGFloat,
+                                           excludingSideAnchors : SideAnchor...) -> [NSLayoutConstraint]{
+        return [
+            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1*padding),
+            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -1*padding),
+        ].compactMap{$0}
     }
     
     func constraintsForSize(width : CGFloat, height: CGFloat) -> [NSLayoutConstraint]{
