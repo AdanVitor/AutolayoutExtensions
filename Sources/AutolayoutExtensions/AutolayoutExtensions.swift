@@ -64,7 +64,7 @@ public extension UIView{
     }
     
     func constraintsForAnchoringTo(view : UIView,
-                                   padding : CGFloat) -> [NSLayoutConstraint] {
+                                   padding : CGFloat = 0) -> [NSLayoutConstraint] {
         
         return constraintsForAnchoringTo(view: view,
                                          top: padding,
@@ -87,7 +87,7 @@ public extension UIView{
     }
     
     func constraintsForAnchoringToSafeArea(view: UIView,
-                                           padding : CGFloat) -> [NSLayoutConstraint]{
+                                           padding : CGFloat = 0) -> [NSLayoutConstraint]{
         return constraintsForAnchoringToSafeArea(view: view,
                                                  top: padding,
                                                  leading: padding,
@@ -96,7 +96,7 @@ public extension UIView{
     }
     
     func constraintsForAnchoringToSafeArea(view: UIView,
-                                           padding : CGFloat,
+                                           padding : CGFloat = 0,
                                            excludingSideAnchors : SideAnchor...) -> [NSLayoutConstraint]{
         return [
             excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
