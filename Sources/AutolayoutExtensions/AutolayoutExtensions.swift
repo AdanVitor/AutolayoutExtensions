@@ -70,25 +70,25 @@ public extension UIView{
         let top = buildConstraint(anchor: topAnchor,
                                   containerAnchor: view.topAnchor,
                                   constant: top,
-                                  isApplicable: !lowerPrioritySideAnchors.contains(.top),
+                                  isApplicable: !excludingSideAnchors.contains(.top),
                                   isLowerPriority: lowerPrioritySideAnchors.contains(.top))
         
         let leading = buildConstraint(anchor: leadingAnchor,
                                       containerAnchor: view.leadingAnchor,
                                       constant: leading,
-                                      isApplicable: !lowerPrioritySideAnchors.contains(.leading),
+                                      isApplicable: !excludingSideAnchors.contains(.leading),
                                       isLowerPriority: lowerPrioritySideAnchors.contains(.leading))
         
         let bottom = buildConstraint(anchor: bottomAnchor,
                                      containerAnchor: view.bottomAnchor,
                                      constant: -1*bottom,
-                                     isApplicable: !lowerPrioritySideAnchors.contains(.bottom),
+                                     isApplicable: !excludingSideAnchors.contains(.bottom),
                                      isLowerPriority: lowerPrioritySideAnchors.contains(.bottom))
         
         let trailing = buildConstraint(anchor: trailingAnchor,
                                        containerAnchor: view.trailingAnchor,
                                        constant: -1*trailing,
-                                       isApplicable: !lowerPrioritySideAnchors.contains(.trailing),
+                                       isApplicable: !excludingSideAnchors.contains(.trailing),
                                        isLowerPriority: lowerPrioritySideAnchors.contains(.trailing))
         
         return [top, leading, bottom, trailing].compactMap{$0}
@@ -119,25 +119,25 @@ public extension UIView{
         let top = buildConstraint(anchor: topAnchor,
                                   containerAnchor: view.safeAreaLayoutGuide.topAnchor,
                                   constant: top,
-                                  isApplicable: !lowerPrioritySideAnchors.contains(.top),
+                                  isApplicable: !excludingSideAnchors.contains(.top),
                                   isLowerPriority: lowerPrioritySideAnchors.contains(.top))
         
         let leading = buildConstraint(anchor: leadingAnchor,
                                       containerAnchor: view.safeAreaLayoutGuide.leadingAnchor,
                                       constant: leading,
-                                      isApplicable: !lowerPrioritySideAnchors.contains(.leading),
+                                      isApplicable: !excludingSideAnchors.contains(.leading),
                                       isLowerPriority: lowerPrioritySideAnchors.contains(.leading))
         
         let bottom = buildConstraint(anchor: bottomAnchor,
                                      containerAnchor: view.safeAreaLayoutGuide.bottomAnchor,
                                      constant: -1*bottom,
-                                     isApplicable: !lowerPrioritySideAnchors.contains(.bottom),
+                                     isApplicable: !excludingSideAnchors.contains(.bottom),
                                      isLowerPriority: lowerPrioritySideAnchors.contains(.bottom))
         
         let trailing = buildConstraint(anchor: trailingAnchor,
                                        containerAnchor: view.safeAreaLayoutGuide.trailingAnchor,
                                        constant: -1*trailing,
-                                       isApplicable: !lowerPrioritySideAnchors.contains(.trailing),
+                                       isApplicable: !excludingSideAnchors.contains(.trailing),
                                        isLowerPriority: lowerPrioritySideAnchors.contains(.trailing))
         
         return [top, leading, bottom, trailing].compactMap{$0}
