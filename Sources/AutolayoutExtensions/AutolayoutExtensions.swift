@@ -187,7 +187,7 @@ public extension NSLayoutConstraint{
     }
     
     func setLowerPriorityIf(_ condition : Bool){
-        if condition == false {self.priority = .defaultLow}
+        if condition {self.priority = .defaultLow}
     }
 }
 
