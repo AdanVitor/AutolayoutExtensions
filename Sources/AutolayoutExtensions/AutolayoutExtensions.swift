@@ -53,58 +53,59 @@ public extension UIView{
                                    top : CGFloat = 0,
                                    leading : CGFloat = 0,
                                    bottom : CGFloat = 0,
-                                   trailing : CGFloat = 0) -> [NSLayoutConstraint] {
+                                   trailing : CGFloat = 0,
+                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint] {
         
         return [
-            topAnchor.constraint(equalTo: view.topAnchor, constant: top),
-            leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leading),
-            bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1*bottom),
-            trailingAnchor.constraint(equalTo: view.trailingAnchor , constant: -1*trailing),
-        ]
+            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.topAnchor, constant: top),
+            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leading),
+            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1*bottom),
+            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.trailingAnchor , constant: -1*trailing),
+        ].compactMap{$0}
     }
     
     func constraintsForAnchoringTo(view : UIView,
-                                   padding : CGFloat = 0) -> [NSLayoutConstraint] {
+                                   padding : CGFloat = 0,
+                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint] {
         
         return constraintsForAnchoringTo(view: view,
                                          top: padding,
                                          leading: padding,
                                          bottom: padding,
-                                         trailing: padding)
+                                         trailing: padding,
+                                         excludingSideAnchors: excludingSideAnchors)
     }
     
     func constraintsForAnchoringToSafeArea(view: UIView,
                                    top : CGFloat = 0,
                                    leading : CGFloat = 0,
                                    bottom : CGFloat = 0,
-                                   trailing : CGFloat = 0) -> [NSLayoutConstraint]{
+                                   trailing : CGFloat = 0,
+                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint]{
         return [
-            topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: top),
-            leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: leading),
-            bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1*bottom),
-            trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -1*trailing),
-        ]
+            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: top),
+            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: leading),
+            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1*bottom),
+            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -1*trailing),
+        ].compactMap{$0}
     }
     
-    func constraintsForAnchoringToSafeArea(view: UIView,
-                                           padding : CGFloat = 0) -> [NSLayoutConstraint]{
-        return constraintsForAnchoringToSafeArea(view: view,
-                                                 top: padding,
-                                                 leading: padding,
-                                                 bottom: padding,
-                                                 trailing: padding)
-    }
+    
     
     func constraintsForAnchoringToSafeArea(view: UIView,
                                            padding : CGFloat = 0,
-                                           excludingSideAnchors : SideAnchor...) -> [NSLayoutConstraint]{
-        return [
-            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
-            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
-            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1*padding),
-            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -1*padding),
-        ].compactMap{$0}
+                                           excludingSideAnchors : [SideAnchor] = []) -> [NSLayoutConstraint]{
+        return constraintsForAnchoringToSafeArea(view: view,
+                                                 top : padding,
+                                                 leading : padding,
+                                                 bottom : padding,
+                                                 trailing : padding,
+                                                 excludingSideAnchors: excludingSideAnchors)
     }
+    
+    
+    
+   
     
     func constraintsForSize(width : CGFloat, height: CGFloat) -> [NSLayoutConstraint]{
         return [
