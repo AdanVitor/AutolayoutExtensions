@@ -9,7 +9,7 @@ public struct UsesAutoLayout<T: UIView> {
             wrappedValue.translatesAutoresizingMaskIntoConstraints = false
         }
     }
-
+    
     public init(wrappedValue: T) {
         self.wrappedValue = wrappedValue
         wrappedValue.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +39,7 @@ public extension UIView{
                                widthMultiplier: CGFloat = 1,
                                heightMultiplier: CGFloat = 1) -> [NSLayoutConstraint]{
         return [widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
-            heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: heightMultiplier)]
+                heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: heightMultiplier)]
     }
     
     func constraintsForCenterIn(view: UIView) -> [NSLayoutConstraint]{
@@ -49,63 +49,118 @@ public extension UIView{
         ]
     }
     
+    private func buildConstraint<T>(anchor : NSLayoutAnchor<T>,
+                                    containerAnchor : NSLayoutAnchor<T>,
+                                    constant : CGFloat,
+                                    isApplicable : Bool,
+                                    isLowerPriority : Bool) -> NSLayoutConstraint?{
+        let constraint = isApplicable ? anchor.constraint(equalTo: containerAnchor, constant: constant) : nil
+        constraint?.setLowerPriorityIf(isLowerPriority)
+        return constraint
+    }
+    
     func constraintsForAnchoringTo(view : UIView,
                                    top : CGFloat = 0,
                                    leading : CGFloat = 0,
                                    bottom : CGFloat = 0,
                                    trailing : CGFloat = 0,
-                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint] {
+                                   excludingSideAnchors : [SideAnchor] = [],
+                                   withLowerPrioritySideAnchors lowerPrioritySideAnchors: [SideAnchor] = []) -> [NSLayoutConstraint] {
         
-        return [
-            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.topAnchor, constant: top),
-            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leading),
-            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1*bottom),
-            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.trailingAnchor , constant: -1*trailing),
-        ].compactMap{$0}
+        let top = buildConstraint(anchor: topAnchor,
+                                  containerAnchor: view.topAnchor,
+                                  constant: top,
+                                  isApplicable: !lowerPrioritySideAnchors.contains(.top),
+                                  isLowerPriority: lowerPrioritySideAnchors.contains(.top))
+        
+        let leading = buildConstraint(anchor: leadingAnchor,
+                                      containerAnchor: view.leadingAnchor,
+                                      constant: leading,
+                                      isApplicable: !lowerPrioritySideAnchors.contains(.leading),
+                                      isLowerPriority: lowerPrioritySideAnchors.contains(.leading))
+        
+        let bottom = buildConstraint(anchor: bottomAnchor,
+                                     containerAnchor: view.bottomAnchor,
+                                     constant: -1*bottom,
+                                     isApplicable: !lowerPrioritySideAnchors.contains(.bottom),
+                                     isLowerPriority: lowerPrioritySideAnchors.contains(.bottom))
+        
+        let trailing = buildConstraint(anchor: trailingAnchor,
+                                       containerAnchor: view.trailingAnchor,
+                                       constant: -1*trailing,
+                                       isApplicable: !lowerPrioritySideAnchors.contains(.trailing),
+                                       isLowerPriority: lowerPrioritySideAnchors.contains(.trailing))
+        
+        return [top, leading, bottom, trailing].compactMap{$0}
     }
     
     func constraintsForAnchoringTo(view : UIView,
                                    padding : CGFloat = 0,
-                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint] {
+                                   excludingSideAnchors : [SideAnchor] = [],
+                                   withLowerPrioritySideAnchors lowerPrioritySideAnchors: [SideAnchor] = []) -> [NSLayoutConstraint] {
         
         return constraintsForAnchoringTo(view: view,
                                          top: padding,
                                          leading: padding,
                                          bottom: padding,
                                          trailing: padding,
-                                         excludingSideAnchors: excludingSideAnchors)
+                                         excludingSideAnchors: excludingSideAnchors,
+                                         withLowerPrioritySideAnchors: lowerPrioritySideAnchors)
     }
     
-    func constraintsForAnchoringToSafeArea(view: UIView,
-                                   top : CGFloat = 0,
-                                   leading : CGFloat = 0,
-                                   bottom : CGFloat = 0,
-                                   trailing : CGFloat = 0,
-                                   excludingSideAnchors : [SideAnchor] = [] ) -> [NSLayoutConstraint]{
-        return [
-            excludingSideAnchors.contains(.top) ? nil : topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: top),
-            excludingSideAnchors.contains(.leading) ? nil : leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: leading),
-            excludingSideAnchors.contains(.bottom) ? nil : bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1*bottom),
-            excludingSideAnchors.contains(.trailing) ? nil : trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor , constant: -1*trailing),
-        ].compactMap{$0}
+    func constraintsForAnchoringToSafeArea(view : UIView,
+                                           top : CGFloat = 0,
+                                           leading : CGFloat = 0,
+                                           bottom : CGFloat = 0,
+                                           trailing : CGFloat = 0,
+                                           excludingSideAnchors : [SideAnchor] = [],
+                                           withLowerPrioritySideAnchors lowerPrioritySideAnchors: [SideAnchor] = []) -> [NSLayoutConstraint] {
+        
+        let top = buildConstraint(anchor: topAnchor,
+                                  containerAnchor: view.safeAreaLayoutGuide.topAnchor,
+                                  constant: top,
+                                  isApplicable: !lowerPrioritySideAnchors.contains(.top),
+                                  isLowerPriority: lowerPrioritySideAnchors.contains(.top))
+        
+        let leading = buildConstraint(anchor: leadingAnchor,
+                                      containerAnchor: view.safeAreaLayoutGuide.leadingAnchor,
+                                      constant: leading,
+                                      isApplicable: !lowerPrioritySideAnchors.contains(.leading),
+                                      isLowerPriority: lowerPrioritySideAnchors.contains(.leading))
+        
+        let bottom = buildConstraint(anchor: bottomAnchor,
+                                     containerAnchor: view.safeAreaLayoutGuide.bottomAnchor,
+                                     constant: -1*bottom,
+                                     isApplicable: !lowerPrioritySideAnchors.contains(.bottom),
+                                     isLowerPriority: lowerPrioritySideAnchors.contains(.bottom))
+        
+        let trailing = buildConstraint(anchor: trailingAnchor,
+                                       containerAnchor: view.safeAreaLayoutGuide.trailingAnchor,
+                                       constant: -1*trailing,
+                                       isApplicable: !lowerPrioritySideAnchors.contains(.trailing),
+                                       isLowerPriority: lowerPrioritySideAnchors.contains(.trailing))
+        
+        return [top, leading, bottom, trailing].compactMap{$0}
     }
     
     
     
     func constraintsForAnchoringToSafeArea(view: UIView,
                                            padding : CGFloat = 0,
-                                           excludingSideAnchors : [SideAnchor] = []) -> [NSLayoutConstraint]{
+                                           excludingSideAnchors : [SideAnchor] = [],
+                                           withLowerPrioritySideAnchors lowerPrioritySideAnchors: [SideAnchor] = []) -> [NSLayoutConstraint]{
         return constraintsForAnchoringToSafeArea(view: view,
                                                  top : padding,
                                                  leading : padding,
                                                  bottom : padding,
                                                  trailing : padding,
-                                                 excludingSideAnchors: excludingSideAnchors)
+                                                 excludingSideAnchors: excludingSideAnchors,
+                                                 withLowerPrioritySideAnchors: lowerPrioritySideAnchors)
     }
     
     
     
-   
+    
     
     func constraintsForSize(width : CGFloat, height: CGFloat) -> [NSLayoutConstraint]{
         return [
@@ -115,7 +170,7 @@ public extension UIView{
     }
     
     
-
+    
 }
 
 public extension NSLayoutConstraint{
@@ -129,6 +184,10 @@ public extension NSLayoutConstraint{
     
     func setLessPriorityThan(otherConstraint : NSLayoutConstraint){
         self.priority = UILayoutPriority(max(otherConstraint.priority.rawValue - 10.0,0))
+    }
+    
+    func setLowerPriorityIf(_ condition : Bool){
+        if condition == false {self.priority = .defaultLow}
     }
 }
 
